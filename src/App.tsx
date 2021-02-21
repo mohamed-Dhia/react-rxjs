@@ -1,41 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+import React, { FC } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import PersonSwitcher from './components/PersonSwitcher.component';
+import FirstPerson from './components/FirstPerson.component';
+import SecondPerson from './components/SecondPerson.component';
 import './App.css';
+import ChatStore from './store/chat';
 
-interface AppProps {}
-
-function App({}: AppProps) {
-  // Create the count state.
-  const [count, setCount] = useState(0);
-  // Create the counter (+1 every second).
-  useEffect(() => {
-    const timer = setTimeout(() => setCount(count + 1), 1000);
-    return () => clearTimeout(timer);
-  }, [count, setCount]);
-  // Return the App component.
+const App: FC = () => {
+  const chatStore = new ChatStore({ data: [], newDataCount: 0 });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <p>
-          Page has been open for <code>{count}</code> seconds.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
-      </header>
-    </div>
+    <>
+      <PersonSwitcher chatStore={chatStore} />
+      <Switch>
+        <Route
+          exact
+          path="/"
+          component={() => <FirstPerson chatStore={chatStore} />}
+        />
+        <Route
+          exact
+          path="/first-person"
+          component={() => <FirstPerson chatStore={chatStore} />}
+        />
+        <Route
+          exact
+          path="/second-person"
+          component={() => <SecondPerson chatStore={chatStore} />}
+        />
+      </Switch>
+    </>
   );
-}
+};
 
 export default App;
