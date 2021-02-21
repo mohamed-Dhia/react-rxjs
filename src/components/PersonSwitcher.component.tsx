@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import type ChatStore from '../store/chat';
 
 const PersonSwitcher: FC<{ chatStore: ChatStore }> = ({ chatStore }) => {
-  const [chatState, setChatState] = useState(chatStore.initialState);
+  const [{ newDataCount: chatState }, setChatState] = useState(
+    chatStore.chatState,
+  );
   const location = window.location.href.split('/')[3];
 
   useEffect(() => {
@@ -11,8 +13,8 @@ const PersonSwitcher: FC<{ chatStore: ChatStore }> = ({ chatStore }) => {
     chatStore.init();
   }, [chatStore]);
 
-  const messageNotification = chatState.newDataCount > 0 && (
-    <span className="notify">{chatState.newDataCount}</span>
+  const messageNotification = chatState > 0 && (
+    <span className="notify">{chatState}</span>
   );
 
   return (

@@ -2,7 +2,7 @@ import React, { FC, FormEvent, useLayoutEffect, useState } from 'react';
 import ChatStore, { Message } from '../store/chat';
 
 const FirstPerson: FC<{ chatStore: ChatStore }> = ({ chatStore }) => {
-  const [chatState, setChatState] = useState(chatStore.state);
+  const [{ data: chatState }, setChatState] = useState(chatStore.chatState);
   const [messageInput, setMessageInput] = useState('');
 
   useLayoutEffect(() => {
@@ -24,7 +24,7 @@ const FirstPerson: FC<{ chatStore: ChatStore }> = ({ chatStore }) => {
     <div className="container">
       <h2>Mycroft</h2>
       <div className="chat-box">
-        {chatState.data.map((message) => (
+        {chatState.map((message) => (
           <div>
             <p className={message.person}>{message.text}</p>
             <div className="clear" />

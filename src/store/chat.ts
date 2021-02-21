@@ -14,11 +14,15 @@ export interface ChatState {
 export default class ChatStore {
   private subject: Subject<ChatState>;
 
-  public state: ChatState;
+  private state: ChatState;
 
   constructor(public initialState: ChatState) {
     this.subject = new Subject<ChatState>();
     this.state = initialState;
+  }
+
+  get chatState(): ChatState {
+    return this.state;
   }
 
   init(): void {
